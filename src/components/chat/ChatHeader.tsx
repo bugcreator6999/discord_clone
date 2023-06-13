@@ -22,7 +22,7 @@ const ChatHeader = () => {
         <NotificationsIcon />
         <PushPinIcon />
         <PeopleAltIcon />
-        <div className="chatHeaderSeatch">
+        <div className="chatHeaderSearch">
           <input type="text" placeholder="検索" />
           <SearchIcon />
         </div>
