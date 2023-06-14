@@ -10,6 +10,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { login, logout } from "./features/userSlice";
 import { log } from "console";
 
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallBack } from "./utils/ErrorFallBack";
+
 function App() {
   const user = useAppSelector((state) => state.user);
   // const user = null; // TODO
@@ -38,7 +41,9 @@ function App() {
       {user ? (
         <>
           {/* sidebar */}
-          <Sidebar />
+          <ErrorBoundary FallbackComponent={ErrorFallBack}>
+            <Sidebar />
+          </ErrorBoundary>
 
           {/* char */}
           <Chat />
