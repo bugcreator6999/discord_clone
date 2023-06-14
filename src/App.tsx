@@ -12,10 +12,10 @@ import { log } from "console";
 
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallBack } from "./utils/ErrorFallBack";
+import useCollection from "./hooks/useCollection";
 
 function App() {
   const user = useAppSelector((state) => state.user);
-  // const user = null; // TODO
 
   const dispatch = useAppDispatch();
 

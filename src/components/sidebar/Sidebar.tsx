@@ -10,37 +10,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SidebarChannel from "./SidebarChannel";
 import { auth, db } from "../../firebase";
 import { useAppSelector } from "../../app/hooks";
+import useCollection from "../../hooks/useCollection";
 // import { collection, query } from "firebase/firestore/lite";
-import {
-  onSnapshot,
-  collection,
-  query,
-  DocumentData,
-} from "firebase/firestore";
-
-interface Channel {
-  id: string;
-  channel: DocumentData;
-}
 
 const Sidebar = () => {
   const user = useAppSelector((state) => state.user);
-  const [channels, setChannels] = useState<Channel[]>([]);
-  const q = query(collection(db, "channels"));
-
-  useEffect(() => {
-    onSnapshot(q, (querySnapshot) => {
-      const channlesResults: Channel[] = [];
-      querySnapshot.docs.forEach((doc) =>
-        channlesResults.push({
-          id: doc.id,
-          channel: doc.data(),
-        })
-      );
-      setChannels(channlesResults);
-    });
-  }, []);
-
+  const { documents: channels } = useCollection("channels");
   return (
     <div className="sidebar">
       {/* sidebarLeft */}
