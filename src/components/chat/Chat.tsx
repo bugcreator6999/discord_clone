@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Chat.scss";
 import ChatHeader from "./ChatHeader";
 import ChatMessage from "./ChatMessage";
@@ -14,6 +14,7 @@ import {
   DocumentReference,
   addDoc,
   collection,
+  onSnapshot,
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -24,6 +25,25 @@ const Chat = () => {
   const channelName = useAppSelector((state) => state.channel.channelName);
   const channelId = useAppSelector((state) => state.channel.channelId);
   const user = useAppSelector((state) => state.user.user);
+
+  useEffect(() => {
+    let collectionRef = collection(
+      db,
+      "channels",
+      String(channelId),
+      "messages"
+    );
+    let results = [];
+    onSnapshot(collectionRef, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        results.push({
+          timestamp: doc.data().timestamp,
+          message: doc.data().message,
+          user: doc.data().user,
+        });
+      });
+    });
+  }, [channelId]);
 
   const sendMessage = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
